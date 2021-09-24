@@ -60,6 +60,7 @@ class ScalingRuleBase(object):
             self.adp.gns.reset_accumulation(*args, **kwargs)
         else:
             warnings.warn("skipping zero_grad for accumulated gradient")
+        self.adp.enable_backward_hook()
 
     def step(self, *args, **kwargs):
         """
@@ -84,6 +85,7 @@ class ScalingRuleBase(object):
             pg["lr"] = lr
         self.adp.gns.set_progress(self.adp.gns.get_progress()
                                   + self.adp.gns.gain(scale))
+        self.adp.disable_backward_hook()
 
     def _patch_optimizer(self):
         """

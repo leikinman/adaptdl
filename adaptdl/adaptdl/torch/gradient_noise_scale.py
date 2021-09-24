@@ -167,6 +167,8 @@ class GradientNoiseScale(object):
 
     @adaptdl.utils.print_exc
     def _backward_hook(self, idx, param, grad):
+        if not self._adp.allow_backward_hook:
+            return
         # This method should be invoked once for each parameter during the
         # backward pass, before gradients are synchronized between replicas.
         if self._local_sqr is None:

@@ -89,6 +89,13 @@ class AdaptiveDataParallel(DistributedDataParallel):
         adaptdl.checkpoint.load_state(self._state)
 
         self._sync_start = None
+        self.allow_backward_hook = False
+
+    def enable_backward_hook(self):
+        self.allow_backward_hook = True
+
+    def disable_backward_hook(self):
+        self.allow_backward_hook = False
 
     def forward(self, *args, **kwargs):
         # Do not do gradient synchronization during gradient accumulation.
