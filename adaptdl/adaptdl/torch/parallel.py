@@ -77,7 +77,7 @@ class AdaptiveDataParallel(DistributedDataParallel):
         else:
             self.scaling_rule = scaling_rule or AdaScale()
 
-        if isinstance(scaling_rule, AdamScale):
+        if isinstance(self.scaling_rule, AdamScale):
             self.gns = AdamGradientNoiseScale(self, optimizer,
                                               mp_scaler=mp_scaler)
         else:
