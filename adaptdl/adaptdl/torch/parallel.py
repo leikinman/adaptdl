@@ -109,6 +109,9 @@ class AdaptiveDataParallel(DistributedDataParallel):
 
     @adaptdl.utils.print_exc
     def _backward_hook(self, param, grad):
+        if not self.allow_backward_hook:
+            return
+
         # This method should be invoked once for each parameter during the
         # backward pass, before gradients are synchronized between replicas.
         if grad.device.type.startswith("cuda"):
